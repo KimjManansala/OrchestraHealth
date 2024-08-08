@@ -5,12 +5,11 @@ import { drawCardsFromDeck, ICard, IDeckOfCards } from '../../../../helpers';
 import { useBlackJackContextProvider } from '../../../../contexts';
 
 interface IPlayerCards {
-    playerCards: ICard[];
     deckData: IDeckOfCards
 }
 
-const PlayerCards: React.FC<IPlayerCards> = ({ playerCards, deckData }) => {
-    const { setPlayerCards } = useBlackJackContextProvider();
+const PlayerCards: React.FC<IPlayerCards> = ({ deckData }) => {
+    const { playerCards, setPlayerCards } = useBlackJackContextProvider();
     const toast = useToast();
     const [isCardLoading, setIsCardLoading] = React.useState(false);
     const hitDeck = () => {

@@ -33,8 +33,8 @@ const Table: React.FC<ITable> = ({
 
     return (
         <Container maxW='xl' mt={{base: '5%', md: '15%'}}>
-            <DealersCards dealerCards={dealerCards} startGame={startGame} />
-            <PlayerCards playerCards={playerCards} deckData={deckData}/>
+            <DealersCards startGame={startGame} />
+            <PlayerCards deckData={deckData}/>
         </Container>
     );
 };

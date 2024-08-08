@@ -6,12 +6,11 @@ import { drawCardsFromDeck, ICard, reshuffleDeck } from '../../../../helpers';
 import { useBlackJackContextProvider } from '../../../../contexts';
 
 interface IDealerCards {
-    dealerCards: ICard[];
     startGame: () => void;
 }
 
-const DealersCards: React.FC<IDealerCards> = ({ dealerCards, startGame }) => {
-    const { deckData, setDealerCards, setPlayerCards } = useBlackJackContextProvider();
+const DealersCards: React.FC<IDealerCards> = ({ startGame }) => {
+    const { deckData, dealerCards, setDealerCards, setPlayerCards } = useBlackJackContextProvider();
     const toast = useToast();
     const [isShuffleLoading, setIsShuffleLoading] = React.useState(false);
 
