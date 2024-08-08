@@ -23,7 +23,7 @@ export const getDeckOfCards: () => Promise<IDeckOfCards> = async () => {
  * @returns A promise that resolves to an array of cards.
  * @throws If unable to draw cards from the deck.
  */
-export const drawCardsFromDeck: (deckId: string, numberOfCards: number) => Promise<ICard> = async (deckId, numberOfCards) => {
+export const drawCardsFromDeck: (deckId: string, numberOfCards: number) => Promise<ICard[]> = async (deckId, numberOfCards) => {
     try {
         const response = await axios(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=${numberOfCards}`);
         return response.data.cards
