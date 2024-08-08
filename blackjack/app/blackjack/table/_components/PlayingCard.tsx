@@ -9,9 +9,18 @@ interface IPlayerCard {
 
 const PlayingCard: React.FC<IPlayerCard> = ({
     isFaceUp = true,
-    card
+    card,
 }) => {
-    // TODO create card styling
+    if (!isFaceUp) {
+        return (
+            <Image
+                boxSize='150px'
+                objectFit='scale-down'
+                src='https://deckofcardsapi.com/static/img/back.png'
+                alt={card.code}
+            />
+        )
+    }
     return (
         <Image
             boxSize='150px'

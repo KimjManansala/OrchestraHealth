@@ -19,13 +19,12 @@ const Table: React.FC<ITable> = ({
             (async () => {
                 try {
                     const initialCards = await drawCardsFromDeck(deckData.deck_id, 4);
-                    console.log(initialCards)
                     setDealerCards(initialCards.slice(0, 2));
                     setPlayerCards(initialCards.slice(2));
                 } catch (error) {
                     console.error(error);
                     useToast({
-                        description: 'Unable to deal dealers cards',
+                        description: 'Unable to deal initial cards',
                         status: 'error'
                     })
                 }
@@ -36,7 +35,7 @@ const Table: React.FC<ITable> = ({
     return (
         <Container maxW='xl' mt={{base: '5%', md: '15%'}}>
             <DealersCards dealerCards={dealerCards} />
-            <PlayerCards playerCards={playerCards}/>
+            <PlayerCards playerCards={playerCards} deckData={deckData}/>
         </Container>
     );
 };

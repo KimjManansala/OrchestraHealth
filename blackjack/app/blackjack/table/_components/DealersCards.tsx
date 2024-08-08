@@ -1,24 +1,73 @@
-import { Card, CardBody, CardHeader, Wrap } from '@chakra-ui/react';
+import { Button, Card,
+    CardBody, CardHeader, useToast, Wrap } from '@chakra-ui/react';
 import React from 'react';
 import PlayingCard from './PlayingCard';
-import { ICard } from '../../../../helpers';
+import { drawCardsFromDeck, ICard, reshuffleDeck } from '../../../../helpers';
+import { useBlackJackContextProvider } from '../../../../contexts';
 
 interface IDealerCards {
     dealerCards: ICard[];
 }
 
 const DealersCards: React.FC<IDealerCards> = ({ dealerCards }) => {
+    const { deckData, setDealerCards, setPlayerCards } = useBlackJackContextProvider();
+    const toast = useToast();
+    const [isShuffleLoading, setIsShuffleLoading] = React.useState(false);
+
+    const shuffleDeck = () => {
+        if (deckData.deck_id) {
+            ((async () => {
+                setIsShuffleLoading(true)
+                try {
+                    const data = await reshuffleDeck(deckData.deck_id, true);
+                    const initialCards = await drawCardsFromDeck(deckData.deck_id, 4);
+                    setDealerCards(initialCards.slice(0, 2));
+                    setPlayerCards(initialCards.slice(2));
+                } catch (error) {
+                    console.error(error);
+                    useToast({
+                        description: 'Unable to deal initial cards',
+                        status: 'error'
+                    })
+                } finally {
+                    setIsShuffleLoading(false)
+                }
+            })())
+        }
+    }
 
     return (
         <Card>
             <CardHeader>
                 Dealers Cards
+                <Button
+                    colorScheme='blue'
+                    ml={5}
+                    float='right'
+                    isLoading={isShuffleLoading}
+                    onClick={shuffleDeck}
+                >
+                        Reshuffle
+                </Button>
             </CardHeader>
             <CardBody>
                 <Wrap>
                     {dealerCards.map((card, index) => (
-                        <PlayingCard key={index} card={card} isFaceUp />
+                        <PlayingCard key={index} card={card} isFaceUp/>
                     ))}
+                    <PlayingCard
+                        card={{
+                            code: 'back',
+                            image: '',
+                            images: {
+                                png: '',
+                                svg: ''
+                            },
+                            value: '',
+                            suit: ''
+                        }}
+                        isFaceUp={false}
+                    />
                 </Wrap>
             </CardBody>
         </Card>
