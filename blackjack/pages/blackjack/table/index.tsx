@@ -1,7 +1,6 @@
 import React from 'react';
 
 interface IBlackJackTablePage {
-    // Define your interface properties here
 }
 
 const BlackJackTablePage: React.FC<IBlackJackTablePage> = () => {
