@@ -1,14 +1,16 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
+import { Container, useToast } from '@chakra-ui/react';
 
 // 1. import `ChakraProvider` component
-import { ChakraProvider } from '@chakra-ui/react'
 
 
 export default function Home() {
   return (
-    <ChakraProvider>
-      <div>Hello</div>
-    </ChakraProvider>
+
+      <Container maxW='md' bg='blue.600' color='white'>
+                Hi
+        </Container>
+
   );
 }

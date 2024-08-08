@@ -1,4 +1,6 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+"use client";
+import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
+import { IDeckOfCards } from '../helpers';
 
 
 interface IBlackJackContextProvider {
@@ -6,15 +8,25 @@ interface IBlackJackContextProvider {
 }
 
 export interface IBlackJackContext {
-    // Define your interface properties here
+    // States
+    deckData?: IDeckOfCards
+    // Setters / Functions
+    setDeckData: Dispatch<SetStateAction<IBlackJackContext['deckData']>>
 }
 
 const useBlackJackContext = createContext<IBlackJackContext>({
+    deckData: undefined,
+    setDeckData: () => {}
 });
 
 export const BlackJackContextProvider: React.FC<IBlackJackContextProvider> = (props) => {
+    const [deckData, setDeckData] = useState<IDeckOfCards>();
     return (
-            <useBlackJackContext.Provider value={{}}>
+            <useBlackJackContext.Provider value={{
+                deckData,
+
+                setDeckData
+            }}>
                 {props.children}
             </useBlackJackContext.Provider>
     )
