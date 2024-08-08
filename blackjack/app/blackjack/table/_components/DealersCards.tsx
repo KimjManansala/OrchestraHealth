@@ -10,14 +10,13 @@ interface IDealerCards {
 }
 
 const DealersCards: React.FC<IDealerCards> = ({ startGame }) => {
-    const { deckData, dealerCards, setDealerCards, setPlayerCards } = useBlackJackContextProvider();
+    const { deckData, dealerCards, setDealerCards, setPlayerCards, setIsCardsShuffling, isCardsShuffling } = useBlackJackContextProvider();
     const toast = useToast();
-    const [isShuffleLoading, setIsShuffleLoading] = React.useState(false);
 
     const shuffleDeck = () => {
         if (deckData.deck_id) {
             ((async () => {
-                setIsShuffleLoading(true)
+                setIsCardsShuffling(true)
                 try {
                     const data = await reshuffleDeck(deckData.deck_id, true);
                     const initialCards = await drawCardsFromDeck(deckData.deck_id, 4);
@@ -30,7 +29,7 @@ const DealersCards: React.FC<IDealerCards> = ({ startGame }) => {
                         status: 'error'
                     })
                 } finally {
-                    setIsShuffleLoading(false)
+                    setIsCardsShuffling(false)
                 }
             })())
         }
@@ -45,7 +44,7 @@ const DealersCards: React.FC<IDealerCards> = ({ startGame }) => {
                         colorScheme='blue'
                         ml={5}
                         float='right'
-                        isLoading={isShuffleLoading}
+                        isLoading={isCardsShuffling}
                         onClick={shuffleDeck}
                     >
                             Reshuffle & Redraw
@@ -55,7 +54,7 @@ const DealersCards: React.FC<IDealerCards> = ({ startGame }) => {
                         colorScheme='blue'
                         ml={5}
                         float='right'
-                        isLoading={isShuffleLoading}
+                        isLoading={isCardsShuffling}
                         onClick={startGame}
                     >
                             Start game

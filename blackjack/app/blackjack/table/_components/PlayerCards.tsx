@@ -9,7 +9,7 @@ interface IPlayerCards {
 }
 
 const PlayerCards: React.FC<IPlayerCards> = ({ deckData }) => {
-    const { playerCards, setPlayerCards } = useBlackJackContextProvider();
+    const { playerCards, setPlayerCards, isCardsShuffling } = useBlackJackContextProvider();
     const toast = useToast();
     const [isCardLoading, setIsCardLoading] = React.useState(false);
     const hitDeck = () => {
@@ -40,7 +40,7 @@ const PlayerCards: React.FC<IPlayerCards> = ({ deckData }) => {
                     colorScheme='blue'
                     ml={5}
                     float='right'
-                    isLoading={isCardLoading}
+                    isLoading={isCardsShuffling || isCardLoading}
                     onClick={hitDeck}
                 >
                         Hit
