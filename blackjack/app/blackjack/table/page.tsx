@@ -14,27 +14,26 @@ const Table: React.FC<ITable> = ({
     const { deckData, playerCards, dealerCards, setDealerCards, setPlayerCards } = useBlackJackContextProvider();
     const toast = useToast();
 
-    useEffect(() => {
+    const startGame = async () => {
         if (deckData) {
-            (async () => {
-                try {
-                    const initialCards = await drawCardsFromDeck(deckData.deck_id, 4);
-                    setDealerCards(initialCards.slice(0, 2));
-                    setPlayerCards(initialCards.slice(2));
-                } catch (error) {
-                    console.error(error);
-                    useToast({
-                        description: 'Unable to deal initial cards',
-                        status: 'error'
-                    })
-                }
-            })()
+            try {
+                const initialCards = await drawCardsFromDeck(deckData.deck_id, 4);
+                setDealerCards(initialCards.slice(0, 2));
+                setPlayerCards(initialCards.slice(2));
+            } catch (error) {
+                console.error(error);
+                useToast({
+                    description: 'Unable to deal initial cards',
+                    status: 'error'
+                })
+            }
         }
-    }, [])
+    }
+
 
     return (
         <Container maxW='xl' mt={{base: '5%', md: '15%'}}>
-            <DealersCards dealerCards={dealerCards} />
+            <DealersCards dealerCards={dealerCards} startGame={startGame} />
             <PlayerCards playerCards={playerCards} deckData={deckData}/>
         </Container>
     );

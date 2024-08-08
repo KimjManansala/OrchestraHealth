@@ -7,9 +7,10 @@ import { useBlackJackContextProvider } from '../../../../contexts';
 
 interface IDealerCards {
     dealerCards: ICard[];
+    startGame: () => void;
 }
 
-const DealersCards: React.FC<IDealerCards> = ({ dealerCards }) => {
+const DealersCards: React.FC<IDealerCards> = ({ dealerCards, startGame }) => {
     const { deckData, setDealerCards, setPlayerCards } = useBlackJackContextProvider();
     const toast = useToast();
     const [isShuffleLoading, setIsShuffleLoading] = React.useState(false);
@@ -40,21 +41,30 @@ const DealersCards: React.FC<IDealerCards> = ({ dealerCards }) => {
         <Card>
             <CardHeader>
                 Dealers Cards
-                <Button
-                    colorScheme='blue'
-                    ml={5}
-                    float='right'
-                    isLoading={isShuffleLoading}
-                    onClick={shuffleDeck}
-                >
-                        Reshuffle
-                </Button>
+                {dealerCards.length > 0 ? (
+                    <Button
+                        colorScheme='blue'
+                        ml={5}
+                        float='right'
+                        isLoading={isShuffleLoading}
+                        onClick={shuffleDeck}
+                    >
+                            Reshuffle & Redraw
+                    </Button>
+                ) :(
+                    <Button
+                        colorScheme='blue'
+                        ml={5}
+                        float='right'
+                        isLoading={isShuffleLoading}
+                        onClick={startGame}
+                    >
+                            Start game
+                    </Button>
+                )}
             </CardHeader>
             <CardBody>
                 <Wrap>
-                    {dealerCards.map((card, index) => (
-                        <PlayingCard key={index} card={card} isFaceUp/>
-                    ))}
                     <PlayingCard
                         card={{
                             code: 'back',
@@ -68,6 +78,9 @@ const DealersCards: React.FC<IDealerCards> = ({ dealerCards }) => {
                         }}
                         isFaceUp={false}
                     />
+                    {dealerCards.map((card, index) => (
+                        <PlayingCard key={index} card={card} isFaceUp/>
+                    ))}
                 </Wrap>
             </CardBody>
         </Card>
