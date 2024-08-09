@@ -120,7 +120,7 @@ const Table: React.FC<ITable> = ({
 
 
     return (
-        <Container maxW='xl'>
+        <Container maxW='xl' mt={{base: '5%'}}>
             <Center>
                 <Heading mb={5} textAlign='center'>
                     Welcome to the Blackjack table!
