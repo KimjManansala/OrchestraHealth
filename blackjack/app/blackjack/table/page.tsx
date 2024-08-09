@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect } from 'react';
+import { redirect} from 'next/navigation';
 import { calculateHandValue, drawCardsFromDeck, ICard, isPlayerWinner, reshuffleDeck } from '../../../helpers';
 import { Container, useDisclosure, useToast } from '@chakra-ui/react';
 import { useBlackJackContextProvider } from '../../../contexts';
@@ -19,6 +20,10 @@ const Table: React.FC<ITable> = ({
     const [gameOverMessage, setGameOverMessage] = React.useState<string>('')
     const [gameValues, setGameValues] = React.useState<{playerValue: number, dealerValue: number}>({playerValue: 0, dealerValue: 0})
     const [isWinner, setIsWinner] = React.useState<boolean>(false)
+
+    if (!deckData) {
+        redirect('/blackjack')
+    }
 
     const startGame = async () => {
         if (deckData) {
