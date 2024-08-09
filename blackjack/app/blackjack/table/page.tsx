@@ -48,7 +48,7 @@ const Table: React.FC<ITable> = ({
                     setDeckData((prev) => ({...prev, remaining: prev.remaining - 4}));
                 } catch (error) {
                     console.error(error);
-                    useToast({
+                    toast({
                         description: 'Unable to deal initial cards',
                         status: 'error'
                     })
@@ -78,9 +78,10 @@ const Table: React.FC<ITable> = ({
     }
 
     useEffect(() => {
+        console.log('deckData?.remaining', deckData?.remaining)
         if (deckData?.remaining <= 0) {
             toast({
-                'description': 'Deck is empty, Start shuffle and deal cards',
+                'description': 'Deck is empty, Collect Cards, reshuffle and deal cards',
                 'status': 'info'
             })
         }
@@ -98,6 +99,15 @@ const Table: React.FC<ITable> = ({
         }
     }, [playerCards, dealerCards])
 
+    const handleClose = () => {
+        if (deckData.remaining <=0) {
+            startGame();
+        } else {
+            shuffleDeck();
+        }
+        onCloseEndGameAlert();
+    }
+
 
     return (
         <Container maxW='xl' mt={{base: '5%', md: '15%'}}>
@@ -105,7 +115,7 @@ const Table: React.FC<ITable> = ({
             <PlayerCards deckData={deckData} handleStand={handleGameStand} />
             <GameOverAlert
                 isOpen={isOpenEndGameAlert}
-                onClose={onCloseEndGameAlert}
+                onClose={handleClose}
                 message={gameOverMessage}
                 cancelRef={cancelRef}
                 playerCards={playerCards}

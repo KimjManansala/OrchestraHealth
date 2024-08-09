@@ -11,14 +11,14 @@ interface IDealerCards {
 }
 
 const DealersCards: React.FC<IDealerCards> = ({ startGame, shuffleDeck }) => {
-    const { dealerCards, isCardsShuffling } = useBlackJackContextProvider();
+    const { deckData, dealerCards, isCardsShuffling } = useBlackJackContextProvider();
     const toast = useToast();
 
     return (
         <Card>
             <CardHeader>
                 Dealers Cards
-                {dealerCards.length > 0 ? (
+                {deckData.remaining >= 0 ? (
                     <Button
                         colorScheme='blue'
                         ml={5}
