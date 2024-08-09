@@ -44,11 +44,9 @@ const BlackJackTablePage: React.FC<IBlackJackTablePage> = () => {
                     <Text fontSize='1xl'>
                         To play blackjack, click on the 'Enter Table' button!
                     </Text>
-                    {/* <BasicLoader isLoading={isDeckLoading}> */}
-                        <Button isLoading={isDeckLoading} onClick={startGame} id='enter-game-button'>
-                            Enter Table
-                        </Button>
-                    {/* </BasicLoader> */}
+                    <Button isLoading={isDeckLoading} onClick={startGame} id='enter-game-button'>
+                        Enter Table
+                    </Button>
                 </VStack>
             </Container>
     );
