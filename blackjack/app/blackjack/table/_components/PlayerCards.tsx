@@ -6,10 +6,11 @@ import { useBlackJackContextProvider } from '../../../../contexts';
 
 interface IPlayerCards {
     deckData: IDeckOfCards
+    handleStand: () => void;
 }
 
-const PlayerCards: React.FC<IPlayerCards> = ({ deckData }) => {
-    const { playerCards, setPlayerCards, isCardsShuffling } = useBlackJackContextProvider();
+const PlayerCards: React.FC<IPlayerCards> = ({ deckData, handleStand }) => {
+    const { dealerCards, playerCards, setPlayerCards, isCardsShuffling, setDeckData } = useBlackJackContextProvider();
     const toast = useToast();
     const [isCardLoading, setIsCardLoading] = React.useState(false);
     const hitDeck = () => {
@@ -18,6 +19,7 @@ const PlayerCards: React.FC<IPlayerCards> = ({ deckData }) => {
                 setIsCardLoading(true)
                 try {
                     const initialCard = await drawCardsFromDeck(deckData.deck_id, 1);
+                    setDeckData((prev) => ({...prev, remaining: prev.remaining - 1}));
                     setPlayerCards((prev) => [...prev, ...initialCard]);
                 } catch (error) {
                     console.error(error);
@@ -40,10 +42,21 @@ const PlayerCards: React.FC<IPlayerCards> = ({ deckData }) => {
                     colorScheme='blue'
                     ml={5}
                     float='right'
-                    isLoading={isCardsShuffling || isCardLoading}
+                    isLoading={isCardLoading}
                     onClick={hitDeck}
+                    isDisabled={isCardsShuffling || deckData?.remaining <= 0 || dealerCards.length < 2}
                 >
                         Hit
+                </Button>
+                <Button
+                    colorScheme='blue'
+                    ml={5}
+                    float='right'
+                    isLoading={isCardLoading}
+                    onClick={handleStand}
+                    isDisabled={isCardsShuffling || deckData?.remaining <= 0 || dealerCards.length < 2}
+                >
+                        Stand
                 </Button>
             </CardHeader>
             <CardBody>

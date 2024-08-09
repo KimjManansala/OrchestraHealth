@@ -10,7 +10,7 @@ interface IDealerCards {
 }
 
 const DealersCards: React.FC<IDealerCards> = ({ startGame }) => {
-    const { deckData, dealerCards, setDealerCards, setPlayerCards, setIsCardsShuffling, isCardsShuffling } = useBlackJackContextProvider();
+    const { deckData, dealerCards, setDeckData, setDealerCards, setPlayerCards, setIsCardsShuffling, isCardsShuffling } = useBlackJackContextProvider();
     const toast = useToast();
 
     const shuffleDeck = () => {
@@ -22,6 +22,7 @@ const DealersCards: React.FC<IDealerCards> = ({ startGame }) => {
                     const initialCards = await drawCardsFromDeck(deckData.deck_id, 4);
                     setDealerCards(initialCards.slice(0, 2));
                     setPlayerCards(initialCards.slice(2));
+                    setDeckData((prev) => ({...prev, remaining: prev.remaining - 4}));
                 } catch (error) {
                     console.error(error);
                     useToast({
@@ -57,7 +58,7 @@ const DealersCards: React.FC<IDealerCards> = ({ startGame }) => {
                         isLoading={isCardsShuffling}
                         onClick={startGame}
                     >
-                            Start game
+                            Shuffle & deal
                     </Button>
                 )}
             </CardHeader>

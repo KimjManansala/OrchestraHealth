@@ -28,18 +28,21 @@ export const calculateHandValue:(cards: ICard[]) => number = (cards) => {
     return totalValue;
 }
 
+
 /**
- * Determines whether the player wins in a blackjack game.
- * @param playerCards - An array of cards held by the player.
- * @param dealerCards - An array of cards held by the dealer.
- * @returns A boolean indicating whether the player wins.
+ * Determines if the player is the winner based on their card values.
+ * @param playerValue - The total value of the player's cards.
+ * @param dealerValue - The total value of the dealer's cards.
+ * @returns A boolean indicating if the player is the winner.
  */
-export const isPlayerWin:(playerCards: ICard[], dealerCards: ICard[]) => boolean = (
-    playerCards,
-    dealerCards
+export const isPlayerWinner:(playerValue: number, dealerValue: number) => boolean = (
+    playerValue,
+    dealerValue
     ) => {
-        const playerValue = calculateHandValue(playerCards);
-        const dealerValue = calculateHandValue(dealerCards);
+        console.log({
+            playerValue,
+            dealerValue
+        })
 
         return playerValue > 21 ? false // Player is greater than 21: Lose
             : playerValue === 21 && dealerValue !== 21 ? true // Player value is 21: Win

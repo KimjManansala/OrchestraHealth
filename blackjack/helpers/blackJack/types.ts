@@ -15,3 +15,9 @@ export interface ICard {
     value: string;
     suit: string;
 }
+
+export enum CURRENT_GAME_STATUS {
+    WIN = 'win',
+    LOSE = 'lose',
+    GAME_CAN_CONTINUE = 'game_can_continue'
+}
