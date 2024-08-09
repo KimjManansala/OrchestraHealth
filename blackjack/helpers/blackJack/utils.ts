@@ -39,11 +39,6 @@ export const isPlayerWinner:(playerValue: number, dealerValue: number) => boolea
     playerValue,
     dealerValue
     ) => {
-        console.log({
-            playerValue,
-            dealerValue
-        })
-
         return playerValue > 21 ? false // Player is greater than 21: Lose
             : playerValue === 21 && dealerValue !== 21 ? true // Player value is 21: Win
             : playerValue < 21 && playerValue > dealerValue ? true // Player is closer to 21: Win
