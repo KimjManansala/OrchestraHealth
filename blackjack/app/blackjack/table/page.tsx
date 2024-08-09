@@ -2,11 +2,12 @@
 import React, { useEffect } from 'react';
 import { redirect} from 'next/navigation';
 import { calculateHandValue, drawCardsFromDeck, ICard, isPlayerWinner, reshuffleDeck } from '../../../helpers';
-import { Container, useDisclosure, useToast } from '@chakra-ui/react';
+import { Center, Container, Heading, useDisclosure, useToast } from '@chakra-ui/react';
 import { useBlackJackContextProvider } from '../../../contexts';
 import DealersCards from './_components/DealersCards';
 import PlayerCards from './_components/PlayerCards';
 import GameOverAlert from './_components/GameOverAlert';
+import GameRuleSet from './_components/GameRuleSet';
 
 interface ITable {
 }
@@ -119,7 +120,12 @@ const Table: React.FC<ITable> = ({
 
 
     return (
-        <Container maxW='xl' mt={{base: '5%', md: '15%'}}>
+        <Container maxW='xl'>
+            <Center>
+                <Heading mb={5} textAlign='center'>
+                    Welcome to the Blackjack table!
+                </Heading>
+            </Center>
             <DealersCards startGame={startGame} shuffleDeck={shuffleDeck} />
             <PlayerCards deckData={deckData} handleStand={handleGameStand} />
             <GameOverAlert
@@ -131,6 +137,7 @@ const Table: React.FC<ITable> = ({
                 gameValues={gameValues}
                 isWinner={isWinner}
             />
+            <GameRuleSet />
         </Container>
     );
 };

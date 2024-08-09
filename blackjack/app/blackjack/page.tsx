@@ -36,7 +36,7 @@ const BlackJackTablePage: React.FC<IBlackJackTablePage> = () => {
     }
 
     return (
-            <Container maxW='md' mt='25%'>
+            <Container maxW='md' mt={{base: '5%', md: '15%'}}>
                 <VStack>
                     <Text fontSize='6xl'>
                         Welcome!
