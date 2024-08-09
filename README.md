@@ -27,11 +27,22 @@ Video walkthrough
 
 Contents
 --- 
-* What It Is
+* Setup instructions
+*  What It Is
 * What I Used
 * Challenges and Solutions
 * Wish to include
 * Project Pictures
+
+Setup instructions
+---
+- clone this repo
+- cd into repo
+- cd into /blackjack
+- run `npm install`
+- After installing all dependencies run `npm run dev`
+- Afterwards go to http://localhost:3000/blackjack
+- There you should be able to play around with the application
 
 What It Is
 ---
