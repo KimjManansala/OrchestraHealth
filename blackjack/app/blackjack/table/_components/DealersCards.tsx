@@ -18,7 +18,7 @@ const DealersCards: React.FC<IDealerCards> = ({ startGame, shuffleDeck }) => {
         <Card>
             <CardHeader>
                 Dealers Cards
-                {deckData.remaining >= 0 ? (
+                {deckData?.remaining >= 0 ? (
                     <Button
                         colorScheme='blue'
                         ml={5}

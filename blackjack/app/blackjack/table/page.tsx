@@ -17,6 +17,8 @@ const Table: React.FC<ITable> = ({
     const { isOpen: isOpenEndGameAlert, onOpen: onOpenEndGameAlert, onClose: onCloseEndGameAlert } = useDisclosure()
     const cancelRef = React.useRef()
     const [gameOverMessage, setGameOverMessage] = React.useState<string>('')
+    const [gameValues, setGameValues] = React.useState<{playerValue: number, dealerValue: number}>({playerValue: 0, dealerValue: 0})
+    const [isWinner, setIsWinner] = React.useState<boolean>(false)
 
     const startGame = async () => {
         if (deckData) {
@@ -71,14 +73,16 @@ const Table: React.FC<ITable> = ({
         }
         if (isPlayerWinner(playerValue, dealerValue)) {
             setGameOverMessage('You won!')
+            setIsWinner(true)
         } else {
             setGameOverMessage('You lost!')
+            setIsWinner(false)
         }
+        setGameValues({playerValue, dealerValue})
         onOpenEndGameAlert();
     }
 
     useEffect(() => {
-        console.log('deckData?.remaining', deckData?.remaining)
         if (deckData?.remaining <= 0) {
             toast({
                 'description': 'Deck is empty, Collect Cards, reshuffle and deal cards',
@@ -119,6 +123,8 @@ const Table: React.FC<ITable> = ({
                 message={gameOverMessage}
                 cancelRef={cancelRef}
                 playerCards={playerCards}
+                gameValues={gameValues}
+                isWinner={isWinner}
             />
         </Container>
     );
