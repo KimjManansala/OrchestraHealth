@@ -6,7 +6,7 @@ import { useBlackJackContextProvider } from '../../../../contexts';
 
 interface IPlayerCards {
     deckData: IDeckOfCards
-    handleStand: () => void;
+    handleStand: (playerCards: ICard[], dealerCards: ICard[]) => void;
 }
 
 const PlayerCards: React.FC<IPlayerCards> = ({ deckData, handleStand }) => {
@@ -53,7 +53,7 @@ const PlayerCards: React.FC<IPlayerCards> = ({ deckData, handleStand }) => {
                     ml={5}
                     float='right'
                     isLoading={isCardLoading}
-                    onClick={handleStand}
+                    onClick={() => {handleStand(playerCards, dealerCards)}}
                     isDisabled={isCardsShuffling || deckData?.remaining <= 0 || dealerCards.length < 2}
                 >
                         Stand

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from 'react';
-import { calculateHandValue, drawCardsFromDeck, isPlayerWinner, reshuffleDeck } from '../../../helpers';
+import { calculateHandValue, drawCardsFromDeck, ICard, isPlayerWinner, reshuffleDeck } from '../../../helpers';
 import { Container, useDisclosure, useToast } from '@chakra-ui/react';
 import { useBlackJackContextProvider } from '../../../contexts';
 import DealersCards from './_components/DealersCards';
@@ -12,7 +12,7 @@ interface ITable {
 
 const Table: React.FC<ITable> = ({
 }) => {
-    const { deckData, playerCards, dealerCards, setDeckData, setDealerCards, setPlayerCards } = useBlackJackContextProvider();
+    const { deckData, playerCards, dealerCards, setDeckData, setDealerCards, setPlayerCards, setIsCardsShuffling} = useBlackJackContextProvider();
     const toast = useToast();
     const { isOpen: isOpenEndGameAlert, onOpen: onOpenEndGameAlert, onClose: onCloseEndGameAlert } = useDisclosure()
     const cancelRef = React.useRef()
@@ -36,17 +36,39 @@ const Table: React.FC<ITable> = ({
         }
     }
 
-    const handleGameStand = (values?: {playerValue: number, dealerValue: number}) => {
+    const shuffleDeck = () => {
+        if (deckData.deck_id) {
+            ((async () => {
+                setIsCardsShuffling(true)
+                try {
+                    const data = await reshuffleDeck(deckData.deck_id, true);
+                    const initialCards = await drawCardsFromDeck(deckData.deck_id, 4);
+                    setDealerCards(initialCards.slice(0, 2));
+                    setPlayerCards(initialCards.slice(2));
+                    setDeckData((prev) => ({...prev, remaining: prev.remaining - 4}));
+                } catch (error) {
+                    console.error(error);
+                    useToast({
+                        description: 'Unable to deal initial cards',
+                        status: 'error'
+                    })
+                } finally {
+                    setIsCardsShuffling(false)
+                }
+            })())
+        }
+    }
+
+    const handleGameStand = (_playerCards: ICard[], _dealerCards: ICard[], values?: {playerValue: number, dealerValue: number}) => {
         let playerValue;
         let dealerValue;
         if (!values) {
-            playerValue = calculateHandValue(playerCards);
-            dealerValue = calculateHandValue(dealerCards);
+            playerValue = calculateHandValue(_playerCards);
+            dealerValue = calculateHandValue(_dealerCards);
         } else {
             playerValue = values.playerValue
             dealerValue = values.dealerValue
         }
-
         if (isPlayerWinner(playerValue, dealerValue)) {
             setGameOverMessage('You won!')
         } else {
@@ -68,12 +90,8 @@ const Table: React.FC<ITable> = ({
         if (playerCards.length > 0 && dealerCards.length > 0) {
             const playerValue = calculateHandValue(playerCards);
             const dealerValue = calculateHandValue(dealerCards);
-            console.log({
-                playerValue,
-                dealerValue
-            })
             if (playerValue >= 21) {
-                handleGameStand({playerValue, dealerValue})
+                handleGameStand(playerCards, dealerCards, {playerValue, dealerValue})
             } else {
                 console.log('can continue', isPlayerWinner(playerValue, dealerValue))
             }
@@ -83,7 +101,7 @@ const Table: React.FC<ITable> = ({
 
     return (
         <Container maxW='xl' mt={{base: '5%', md: '15%'}}>
-            <DealersCards startGame={startGame} />
+            <DealersCards startGame={startGame} shuffleDeck={shuffleDeck} />
             <PlayerCards deckData={deckData} handleStand={handleGameStand} />
             <GameOverAlert
                 isOpen={isOpenEndGameAlert}
