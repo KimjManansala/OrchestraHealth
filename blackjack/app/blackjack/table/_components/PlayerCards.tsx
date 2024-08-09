@@ -36,7 +36,7 @@ const PlayerCards: React.FC<IPlayerCards> = ({ deckData, handleStand }) => {
 
     return (
         <Card mt={5}>
-            <CardHeader>
+            <CardHeader id='player-card-header'>
                 Player Cards
                 <Button
                     colorScheme='blue'
