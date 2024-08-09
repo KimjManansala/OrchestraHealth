@@ -22,8 +22,8 @@ const GameOverAlert: React.FC<IGameOverAlert> = ({ isOpen, onClose, message, can
             leastDestructiveRef={cancelRef}
         >
             <AlertDialogOverlay>
-            <AlertDialogContent backgroundColor={isWinner ? 'lightgreen' : 'indianred'}>
-                <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+            <AlertDialogContent>
+                <AlertDialogHeader fontSize='lg' fontWeight='bold' color={isWinner? 'green': 'red'}>
                 {message}
                 </AlertDialogHeader>
 
@@ -46,7 +46,7 @@ const GameOverAlert: React.FC<IGameOverAlert> = ({ isOpen, onClose, message, can
                     {String(gameValues.dealerValue)}
                 </Text>
                 {' '}
-                <Card mt={5} backgroundColor={isWinner ? 'green' : 'red'}>
+                <Card mt={5}>
                     <CardHeader>
                         <Text
                             fontWeight='bold'
