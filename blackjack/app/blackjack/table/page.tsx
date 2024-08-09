@@ -101,10 +101,8 @@ const Table: React.FC<ITable> = ({
         if (playerCards.length > 0 && dealerCards.length > 0) {
             const playerValue = calculateHandValue(playerCards);
             const dealerValue = calculateHandValue(dealerCards);
-            if (playerValue >= 21) {
+            if (playerValue >= 21 || dealerValue === 21) {
                 handleGameStand(playerCards, dealerCards, {playerValue, dealerValue})
-            } else {
-                console.log('can continue', isPlayerWinner(playerValue, dealerValue))
             }
         }
     }, [playerCards, dealerCards])
